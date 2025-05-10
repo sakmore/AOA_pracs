@@ -1,0 +1,32 @@
+#include<stdio.h>
+#define max 5
+void main()
+{
+    int i,j,min_pos,temp;
+    int a[max];
+    printf("Enter Elements of array:");
+    for(i=0;i<max;i++){
+        scanf("%d",&a[i]);
+    }
+    printf("Elements of unsorted array are:");
+    for(i=0;i<max;i++){
+        printf("%d ",a[i]);
+    }
+    for(i=0;i<max-1;i++){
+        min_pos=i;
+        for(j=i+1;j<max;j++){
+            if(a[j]<a[min_pos]){
+                min_pos=j;
+            }
+        }
+            if(min_pos!=i){
+                temp=a[i];
+                a[i]=a[min_pos];
+                a[min_pos]=temp;
+        }
+    }
+    printf("\nElements of sorted array are:");
+    for(i=0;i<max;i++){
+        printf("%d ",a[i]);
+    }
+}
