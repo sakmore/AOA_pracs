@@ -1,0 +1,36 @@
+#include <stdio.h>
+
+int max(int a, int b) {
+    return (a > b) ? a : b;
+}
+
+int main() {
+    int w[10], p[10], n, cap, i, j;
+    int K[10][10];
+
+    printf("Enter number of items: ");
+    scanf("%d", &n);
+
+    printf("Enter weights:\n");
+    for (i = 0; i < n; i++) scanf("%d", &w[i]);
+
+    printf("Enter profits:\n");
+    for (i = 0; i < n; i++) scanf("%d", &p[i]);
+
+    printf("Enter capacity: ");
+    scanf("%d", &cap);
+
+    for (i = 0; i <= n; i++) {
+        for (j = 0; j <= cap; j++) {
+            if (i == 0 || j == 0)
+                K[i][j] = 0;
+            else if (w[i - 1] <= j)
+                K[i][j] = max(p[i - 1] + K[i - 1][j - w[i - 1]], K[i - 1][j]);
+            else
+                K[i][j] = K[i - 1][j];
+        }
+    }
+
+    printf("Maximum profit: %d\n", K[n][cap]);
+    return 0;
+}
