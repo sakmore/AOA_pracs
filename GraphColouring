@@ -1,0 +1,58 @@
+#include <stdio.h>             // For input/output functions
+
+#define V 4                    // Number of vertices
+
+// Adjacency matrix representing the graph
+int graph[V][V] = {
+    {0, 1, 1, 1},
+    {1, 0, 1, 0},
+    {1, 1, 0, 1},
+    {1, 0, 1, 0}
+};
+
+int color[V];                 // Stores color assigned to each vertex
+
+// Check if color c can be assigned to vertex v
+int isSafe(int v, int c) {
+    for (int i = 0; i < V; i++)
+        if (graph[v][i] && color[i] == c)
+            return 0;          // If adjacent vertex has same color, not safe
+    return 1;                  // Otherwise, safe
+}
+
+// Try to color all vertices starting from vertex v
+int graphColoring(int v, int m) {
+    if (v == V)
+        return 1;              // All vertices are colored
+
+    for (int c = 1; c <= m; c++) {    // Try all colors from 1 to m
+        if (isSafe(v, c)) {
+            color[v] = c;            // Assign color c
+            if (graphColoring(v + 1, m)) // Recur to color rest
+                return 1;
+            color[v] = 0;            // Backtrack if no color works
+        }
+    }
+    return 0;                        // If no color can be assigned
+}
+
+// Print the color of each vertex
+void printColors() {
+    for (int i = 0; i < V; i++)
+        printf("Vertex %d ---> Color %d\n", i, color[i]);
+}
+
+// Main function
+int main() {
+    int m = 3;                        // Number of colors allowed
+
+    for (int i = 0; i < V; i++)
+        color[i] = 0;                // Initialize all colors to 0 (unassigned)
+
+    if (graphColoring(0, m))         // Start coloring from vertex 0
+        printColors();               // Print result if successful
+    else
+        printf("No solution\n");     // If not possible
+
+    return 0;
+}
