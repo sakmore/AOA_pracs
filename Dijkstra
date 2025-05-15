@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+#define INF 9999
+#define V 5
+
+int main() {
+    int cost[V][V] = {
+        {0, 10, 5, INF, INF},
+        {INF, 0, 2, 1, INF},
+        {INF, 3, 0, 9, 2},
+        {INF, INF, INF, 0, 4},
+        {7, INF, INF, 6, 0}
+    };
+
+    int dist[V], visited[V] = {0}, i, j, u, min;
+    int src = 0; // starting node
+
+    for (i = 0; i < V; i++)
+        dist[i] = cost[src][i];
+
+    visited[src] = 1;
+
+    for (i = 1; i < V; i++) {
+        min = INF;
+        for (j = 0; j < V; j++) {
+            if (!visited[j] && dist[j] < min) {
+                min = dist[j];
+                u = j;
+            }
+        }
+
+        visited[u] = 1;
+
+        for (j = 0; j < V; j++) {
+            if (!visited[j] && dist[u] + cost[u][j] < dist[j])
+                dist[j] = dist[u] + cost[u][j];
+        }
+    }
+
+    printf("Shortest distances from source:\n");
+    for (i = 0; i < V; i++)
+        printf("To %d = %d\n", i, dist[i]);
+
+    return 0;
+}
