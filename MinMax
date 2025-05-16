@@ -1,0 +1,45 @@
+#include <stdio.h>
+
+int min, max;
+
+void findMinMax(int a[], int low, int high) {
+    int mid;
+
+    if (low == high) {
+        if (a[low] < min) min = a[low];
+        if (a[low] > max) max = a[low];
+    } 
+    else if (low + 1 == high) {
+        if (a[low] < a[high]) {
+            if (a[low] < min) min = a[low];
+            if (a[high] > max) max = a[high];
+        } else {
+            if (a[high] < min) min = a[high];
+            if (a[low] > max) max = a[low];
+        }
+    } 
+    else {
+        mid = (low + high) / 2;
+        findMinMax(a, low, mid);
+        findMinMax(a, mid + 1, high);
+    }
+}
+
+int main() {
+    int a[100], n;
+
+    printf("Enter number of elements: ");
+    scanf("%d", &n);
+
+    printf("Enter elements:\n");
+    for (int i = 0; i < n; i++)
+        scanf("%d", &a[i]);
+
+    min = max = a[0];
+    findMinMax(a, 0, n - 1);
+
+    printf("Minimum element: %d\n", min);
+    printf("Maximum element: %d\n", max);
+
+    return 0;
+}
